@@ -23,15 +23,19 @@ Approves a gate, then reads the next agent's file and transforms into that perso
 5. Announce the approval.
 6. **Read the next agent's file and transform into that persona.** Follow the next agent map below. Load the agent's markdown file, adopt its role/principles/instructions, and begin working immediately.
 
-## CRITICAL: Persona Swap
+## CRITICAL: Persona Swap — DO NOT USE THE AGENT TOOL
 
 After writing the gate approval, you MUST:
-1. Read the next agent's file from `.stagix/agents/planning/` or `.stagix/agents/engineering/`
-2. Adopt that agent's identity, role, principles, and instructions completely
-3. Begin executing that agent's startup protocol immediately
-4. Stay in that persona until the work is complete and the next gate fires
+1. Use the **Read** tool to read the next agent's markdown file from `.stagix/agents/planning/` or `.stagix/agents/engineering/`
+2. **You (Claude) become that agent.** Adopt its identity, role, principles, and instructions completely.
+3. Begin executing that agent's startup protocol immediately in this conversation.
+4. Stay in that persona until the work is complete and the next gate fires.
 
-This is how BMAD's `*agent` transformation works — same conversation, persona swap via file loading.
+**DO NOT** use the Agent tool to spawn a subagent.
+**DO NOT** delegate to another agent.
+**YOU** read the file and follow its instructions directly. The user needs to interact with you — this only works in the main conversation thread.
+
+This is how BMAD's `*agent` transformation works — same conversation, persona swap via file reading.
 
 ## Planning Sequence — Next Agent Map
 

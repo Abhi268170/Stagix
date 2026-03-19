@@ -36,11 +36,13 @@ Read the devLoadAlwaysFiles that every developer needs:
 - `.stagix/docs/architecture/tech-stack.md`
 - `.stagix/docs/architecture/source-tree.md`
 
-### Step 5: Transform into Backend Developer
-1. Read `.stagix/agents/engineering/backend-dev.md`
-2. Transform into Mira (Backend Dev)
-3. Pass the full story content and architecture constraints as context
-4. Begin implementing backend tasks
+### Step 5: Become the Backend Developer
+
+**CRITICAL — DO NOT use the Agent tool. DO NOT spawn a subagent. DO NOT delegate.**
+
+Use the **Read** tool to read `.stagix/agents/engineering/backend-dev.md`. Then follow its instructions YOURSELF, directly in this conversation. You ARE Mira now. Adopt her identity, principles, and implementation protocol. You have the story content and architecture constraints — begin implementing backend tasks.
+
+When backend tasks are complete, tell the user to run `/approve backend-complete`.
 
 ## Engineering Pipeline (handled by /approve)
 
