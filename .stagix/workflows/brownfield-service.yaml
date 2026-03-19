@@ -1,0 +1,11 @@
+name: Brownfield Service
+description: Service brownfield — API enhancement mode
+mode: brownfield
+project_type: service
+agents_planning: [codebase-archaeologist, business-analyst, product-manager, solution-architect, db-designer, technical-writer, scrum-master]
+agents_engineering: [backend-dev, devops, test-case-specialist, security-specialist, tech-lead-reviewer, qa-engineer]
+parallel_steps: []
+skipped_agents: [ux-designer, frontend-dev]
+brownfield_extras:
+  - regression_baseline_before_first_story: true
+  - compatibility_check_before_review: true

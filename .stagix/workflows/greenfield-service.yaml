@@ -1,0 +1,8 @@
+name: Greenfield Service
+description: Backend-only project — no UX Designer, no frontend architecture
+mode: greenfield
+project_type: service
+agents_planning: [business-analyst, product-manager, solution-architect, db-designer, technical-writer, scrum-master]
+agents_engineering: [backend-dev, devops, test-case-specialist, security-specialist, tech-lead-reviewer, qa-engineer]
+parallel_steps: []
+skipped_agents: [ux-designer, frontend-dev]

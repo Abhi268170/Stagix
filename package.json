@@ -1,0 +1,32 @@
+{
+  "name": "stagix",
+  "version": "1.0.0",
+  "description": "AI-Native Agile Development Orchestration System — Drop a 14-agent engineering team into any project via Claude Code",
+  "bin": {
+    "stagix": "./bin/stagix.mjs"
+  },
+  "files": [
+    "bin/",
+    ".stagix/"
+  ],
+  "keywords": [
+    "claude-code",
+    "ai-agents",
+    "agile",
+    "orchestration",
+    "jira",
+    "confluence",
+    "playwright",
+    "development",
+    "claude-code-plugin"
+  ],
+  "author": "Abhi",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nextlevelbuilder/stagix"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

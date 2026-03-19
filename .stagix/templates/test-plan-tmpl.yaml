@@ -1,0 +1,10 @@
+# Test Plan Template v1.0
+output: .stagix/tests/{story-key}-test-plan.md
+agent: test-case-specialist
+
+sections:
+  test_cases:
+    instruction: "Per test case: TC-{N}, AC Reference, Level (Unit/Integration/E2E), Priority (P0/P1/P2), Given-When-Then, Test Data, Playwright Locator (E2E only)"
+    repeatable: true
+  traceability_matrix:
+    instruction: "AC → Test Cases mapping with coverage assessment"

@@ -1,0 +1,11 @@
+# Brownfield Story Template v1.0
+# Extends story-tmpl.yaml with brownfield-specific fields
+output: Jira issue (via MCP)
+agent: scrum-master
+
+extends: story-tmpl.yaml
+additional_fields:
+  - existing_code_affected: "Files that will be modified, patterns to follow"
+  - regression_risk: "H/M/L with justification"
+  - rollback_procedure: "How to revert safely"
+  - feature_flag_recommendation: "RECOMMENDED/NOT NEEDED with rationale"

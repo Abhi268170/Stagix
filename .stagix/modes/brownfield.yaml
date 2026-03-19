@@ -1,0 +1,165 @@
+# Brownfield Mode — Existing codebase enhancement
+# Sequence: detect-stack → discover → plan (constrained) → build (with regression safety)
+# Key difference: Archaeologist runs before any planning agent.
+# All planning agents read brownfield-discovery.md as their first input.
+
+name: Brownfield
+description: Existing codebase with source files, git history, and existing tests. Discovery before planning, regression safety during engineering.
+
+planning_sequence:
+  - step: 0
+    agent: codebase-archaeologist
+    mode: sequential
+    gate: discovery
+    input: Entire codebase (read-only)
+    output: .stagix/docs/brownfield-discovery.md
+    notes: >
+      Read-only agent. No writes to codebase. Produces 12-section discovery report
+      covering architecture, tech stack, coding patterns, tech debt, test coverage,
+      known problems, external integrations, env vars, deployment, database schema.
+
+  - step: 1
+    agent: business-analyst
+    mode: sequential
+    gate: business-analyst
+    input:
+      - "User's project idea from /start-project"
+      - .stagix/docs/brownfield-discovery.md
+    output: .stagix/docs/project-brief.md
+    notes: Elicits requirements in context of what already exists. Does not propose features that contradict existing behaviour.
+
+  - step: 2
+    agent: product-manager
+    mode: sequential
+    gate: product-manager
+    input:
+      - .stagix/docs/project-brief.md
+      - .stagix/docs/brownfield-discovery.md
+    output: .stagix/docs/prd.md
+    notes: PRD explicitly sections new vs changed functionality. Every change estimates regression risk.
+
+  - step: 3a
+    agent: ux-designer
+    mode: parallel
+    gate: ux-designer
+    input:
+      - .stagix/docs/prd.md
+      - .stagix/docs/brownfield-discovery.md
+    output:
+      - .stagix/docs/ux-spec.md
+      - .stagix/design-system/MASTER.md
+
+  - step: 3b
+    agent: solution-architect
+    mode: parallel
+    gate: null
+    input:
+      - .stagix/docs/prd.md
+      - .stagix/docs/brownfield-discovery.md
+    output: .stagix/docs/architecture.md (draft)
+    notes: Architecture constrained to existing system. Deviations require ADR with rationale.
+
+  - step: 4
+    agent: solution-architect
+    mode: sequential
+    gate: solution-architect
+    input:
+      - .stagix/docs/prd.md
+      - .stagix/docs/ux-spec.md
+      - .stagix/docs/brownfield-discovery.md
+    output:
+      - .stagix/docs/architecture.md
+      - .stagix/docs/architecture/coding-standards.md
+      - .stagix/docs/architecture/tech-stack.md
+      - .stagix/docs/architecture/source-tree.md
+      - .stagix/docs/architecture/api-contracts.md
+
+  - step: 5
+    agent: db-designer
+    mode: sequential
+    gate: db-designer
+    input:
+      - .stagix/docs/prd.md
+      - .stagix/docs/architecture.md
+      - .stagix/docs/brownfield-discovery.md
+    output: .stagix/docs/db-schema.md
+    notes: Works with existing schema as baseline. All migrations must be zero-downtime. No column renames or drops without deprecation.
+
+  - step: 6
+    agent: technical-writer
+    mode: sequential
+    gate: technical-writer
+    input: .stagix/docs/*
+    output: Confluence space
+
+  - step: 7
+    agent: scrum-master
+    mode: sequential
+    gate: scrum-master
+    input: .stagix/docs/*
+    output: Jira epics and stories
+    notes: Uses brownfield-story-tmpl.yaml with extra fields — existing code affected, regression risk (H/M/L), rollback procedure, feature flag recommendation.
+
+engineering_sequence:
+  # Same as greenfield with additional safety steps
+  - step: 0
+    agent: devops
+    mode: sequential
+    gate: null
+    action: Run regression-baseline.md — capture existing test pass rate before first story
+    output: .stagix/baselines/{epic-key}.json
+
+  - step: 1
+    agent: engineering-lead
+    mode: orchestrator
+    gate: null
+    action: Fetch story, validate story-ready checklist, run brownfield-impact-assess
+
+  - step: 2a
+    agent: backend-dev
+    mode: parallel
+    gate: null
+
+  - step: 2b
+    agent: frontend-dev
+    mode: parallel
+    gate: null
+
+  - step: 3
+    agent: devops
+    mode: sequential
+    gate: devops
+
+  - step: 4
+    agent: test-case-specialist
+    mode: sequential
+    gate: test-plan
+
+  - step: 5
+    agent: backend-dev,frontend-dev
+    mode: sequential
+    gate: null
+    action: Implement test cases + run compatibility-check.md
+
+  - step: 6
+    agent: security-specialist
+    mode: sequential
+    gate: security
+    notes: Archaeologist's tech debt items in security scope are auto-included in audit checklist.
+
+  - step: 7
+    agent: tech-lead-reviewer
+    mode: sequential
+    gate: tech-lead
+    notes: If new code interacts with Critical tech debt area, review includes debt propagation check.
+
+  - step: 8
+    agent: qa-engineer
+    mode: sequential
+    gate: qa
+    notes: Regression — verifies core user journeys from previous stories still work.
+
+  - step: 9
+    agent: human
+    mode: sequential
+    gate: final

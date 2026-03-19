@@ -1,0 +1,22 @@
+# Database Schema Template v1.0
+output: .stagix/docs/db-schema.md
+agent: db-designer
+
+sections:
+  entity_relationship_overview:
+    instruction: "All entities with descriptions, Mermaid ER diagram, cardinality"
+  table_definitions:
+    instruction: "Per table: columns (name, type, nullable, default, constraints), PK, UQ, CHECK"
+    repeatable: true
+  foreign_key_map:
+    instruction: "Every FK with ON DELETE/UPDATE behaviour and justification"
+  index_strategy:
+    instruction: "Per index: name, columns, type, query pattern supported, partial conditions"
+  migration_execution_plan:
+    instruction: "Ordered migrations, estimated duration, rollback procedure, zero-downtime approach"
+  query_patterns:
+    instruction: "Common data access patterns with expected query shape and index usage"
+  sharding_partitioning:
+    instruction: "Only if applicable — partition key, strategy, retention policy"
+  backup_and_retention:
+    instruction: "Backup frequency, retention period, PITR approach, data lifecycle"

@@ -1,0 +1,20 @@
+# Not part of the npm package
+reference/
+docs/
+sprint/
+.stagix/.env
+.stagix/state/
+.stagix/gates/*.pending.json
+.stagix/gates/*.approved
+.stagix/gates/*.rejected
+.stagix/qa/evidence/
+.stagix/qa/reports/
+.stagix/baselines/
+.stagix/security-events.log
+.stagix/docs/
+.stagix/design-system/
+__pycache__/
+*.pyc
+.git/
+.gitignore
+CLAUDE.md

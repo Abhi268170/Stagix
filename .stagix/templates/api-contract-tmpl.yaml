@@ -1,0 +1,9 @@
+# API Contract Template v1.0
+output: .stagix/docs/architecture/api-contracts.md
+agent: solution-architect
+
+sections:
+  per_endpoint:
+    instruction: "Method + path, request body/query params (typed), response shape (typed), error responses, auth requirements, rate limiting"
+    repeatable: true
+    format: openapi-3.0

@@ -1,0 +1,9 @@
+name: Greenfield Full-Stack
+description: Full-stack project — Analyst through Engineering Collective
+mode: greenfield
+project_type: fullstack
+agents_planning: [business-analyst, product-manager, ux-designer, solution-architect, db-designer, technical-writer, scrum-master]
+agents_engineering: [backend-dev, frontend-dev, devops, test-case-specialist, security-specialist, tech-lead-reviewer, qa-engineer]
+parallel_steps:
+  - [ux-designer, solution-architect]  # Step 3a+3b
+skipped_agents: []

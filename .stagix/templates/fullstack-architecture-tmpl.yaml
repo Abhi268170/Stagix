@@ -1,0 +1,10 @@
+# Full-Stack Architecture Template v1.0
+# Combined backend + frontend architecture for monorepo or tightly integrated projects.
+output: .stagix/docs/architecture.md
+agent: solution-architect
+extends: architecture-tmpl.yaml
+additional_sections:
+  frontend_architecture:
+    instruction: "Framework, rendering strategy (SSR/SSG/SPA), state management, component library"
+  build_and_bundling:
+    instruction: "Build tool, bundle strategy, code splitting, asset optimisation"

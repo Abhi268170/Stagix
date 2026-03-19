@@ -1,0 +1,12 @@
+# Code Review Report Template v1.0
+output: .stagix/docs/code-review-{story-key}.md
+agent: tech-lead-reviewer
+
+sections:
+  summary_table:
+    instruction: "5 dimensions: Code Quality, Security Conformance, Test Coverage, Architecture Conformance, Performance — PASS/FAIL each"
+  detailed_findings:
+    instruction: "Per finding: [Dimension] File:line, Issue, Why it matters, Remediation"
+    repeatable: true
+  commendations:
+    instruction: "What was done well"

@@ -1,0 +1,33 @@
+# Project Brief Template v1.0
+output: .stagix/docs/project-brief.md
+agent: business-analyst
+
+sections:
+  vision:
+    instruction: "One-paragraph vision statement capturing the core value proposition"
+    elicit: true
+  goals:
+    instruction: "Numbered list of specific, measurable goals"
+    elicit: true
+  target_users:
+    instruction: "2-4 user personas with Name, Role, Goals, Pain Points, Tech Comfort"
+    elicit: true
+  problem_statement:
+    instruction: "Clear problem definition validated through elicitation"
+    elicit: true
+  scope:
+    instruction: "MoSCoW prioritised: Must Have, Should Have, Could Have, Won't Have"
+    elicit: true
+    subsections:
+      - in_scope
+      - out_of_scope
+  constraints:
+    instruction: "Technical, budget, timeline, regulatory constraints"
+    elicit: true
+  success_metrics:
+    instruction: "Quantifiable metrics with target values and measurement method"
+    elicit: true
+  open_questions:
+    instruction: "Unresolved items for PM to address"
+  elicitation_log:
+    instruction: "Summary of key decisions made during each of the 5 elicitation phases"

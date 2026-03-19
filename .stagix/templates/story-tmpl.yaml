@@ -1,0 +1,19 @@
+# Story Template v1.0
+output: Jira issue (via MCP)
+agent: scrum-master
+
+required_fields:
+  - title: "Clear, action-oriented"
+  - user_story: "As a {persona}, I want {action}, so that {benefit}"
+  - acceptance_criteria: "Numbered, Given-When-Then format"
+  - implementation_tasks: "Numbered subtasks with [S/M/L] complexity"
+  - api_contracts_referenced: "Method + path + section citation"
+  - db_schema_referenced: "Table name + columns + section citation"
+  - edge_cases: "Minimum 3 per story"
+  - security_notes: "Validation, auth, data sensitivity"
+  - testing_notes: "Unit/integration/E2E scope"
+
+permissions:
+  scrum_master: [title, user_story, acceptance_criteria, implementation_tasks, api_contracts, db_schema, edge_cases, security_notes, testing_notes]
+  developer: [task_checkboxes, dev_agent_record, file_list, change_log]
+  qa: [qa_results]

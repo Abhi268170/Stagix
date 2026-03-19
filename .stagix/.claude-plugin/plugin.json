@@ -1,0 +1,140 @@
+{
+  "name": "stagix",
+  "version": "1.0.0",
+  "description": "AI-Native Agile Development Orchestration System — 14 specialist agents, structured gates, full Jira/Confluence/Playwright integration",
+  "author": {
+    "name": "Abhi",
+    "url": "https://github.com/nextlevelbuilder"
+  },
+  "repository": "https://github.com/nextlevelbuilder/stagix",
+  "license": "MIT",
+  "keywords": ["agile", "agents", "orchestration", "jira", "confluence", "playwright", "development"],
+  "category": "productivity",
+  "agents": [
+    "./agents/planning/planning-lead.md",
+    "./agents/planning/business-analyst.md",
+    "./agents/planning/product-manager.md",
+    "./agents/planning/ux-designer.md",
+    "./agents/planning/solution-architect.md",
+    "./agents/planning/db-designer.md",
+    "./agents/planning/technical-writer.md",
+    "./agents/planning/scrum-master.md",
+    "./agents/planning/codebase-archaeologist.md",
+    "./agents/engineering/engineering-lead.md",
+    "./agents/engineering/backend-dev.md",
+    "./agents/engineering/frontend-dev.md",
+    "./agents/engineering/devops.md",
+    "./agents/engineering/test-case-specialist.md",
+    "./agents/engineering/security-specialist.md",
+    "./agents/engineering/tech-lead-reviewer.md",
+    "./agents/engineering/qa-engineer.md"
+  ],
+  "commands": [
+    "./commands/start-project/",
+    "./commands/implement-story/",
+    "./commands/approve/",
+    "./commands/reject/",
+    "./commands/review-handoff/",
+    "./commands/status/",
+    "./commands/discover-brownfield/"
+  ],
+  "skills": "./skills/",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/hooks/pre-tool-use/block-git-commit.py"
+          },
+          {
+            "type": "command",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/hooks/pre-tool-use/block-destructive-ops.py"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/hooks/pre-tool-use/validate-file-scope.py"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/hooks/post-tool-use/run-linter.py"
+          },
+          {
+            "type": "command",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/hooks/post-tool-use/log-file-changes.py"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/hooks/stop/handoff-gate.py"
+          }
+        ]
+      }
+    ],
+    "TaskCompleted": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/hooks/task-completed/enforce-dod.py"
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/hooks/subagent-stop/collect-output.py"
+          }
+        ]
+      }
+    ]
+  },
+  "mcpServers": {
+    "atlassian": {
+      "command": "uvx",
+      "args": ["mcp-atlassian"],
+      "env": {
+        "JIRA_URL": "${JIRA_URL}",
+        "JIRA_EMAIL": "${JIRA_EMAIL}",
+        "JIRA_API_TOKEN": "${JIRA_API_TOKEN}",
+        "CONFLUENCE_URL": "${CONFLUENCE_URL}",
+        "CONFLUENCE_EMAIL": "${CONFLUENCE_EMAIL}",
+        "CONFLUENCE_API_TOKEN": "${CONFLUENCE_API_TOKEN}"
+      }
+    },
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "@playwright/mcp@latest",
+        "--headless",
+        "--save-trace",
+        "--save-video=1280x720",
+        "--output-dir",
+        "${CLAUDE_PLUGIN_ROOT}/qa/evidence/",
+        "--test-id-attribute",
+        "data-testid"
+      ]
+    }
+  }
+}

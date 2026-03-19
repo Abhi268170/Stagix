@@ -1,0 +1,19 @@
+# QA Report Template v1.0
+output: .stagix/qa/reports/{story-key}-qa-report.md
+agent: qa-engineer
+
+sections:
+  test_environment:
+    instruction: "Dev server command, port, browser, timestamp"
+  acceptance_criteria_results:
+    instruction: "Per AC: description, PASS/FAIL, evidence screenshot link"
+  edge_case_results:
+    instruction: "Per edge case: description, PASS/FAIL, notes"
+  regression_results:
+    instruction: "Core user journeys: PASS/FAIL per journey"
+  browser_console:
+    instruction: "Console errors and warnings captured"
+  network_requests:
+    instruction: "Unexpected API calls or failures"
+  overall:
+    instruction: "PASS or FAIL with summary"

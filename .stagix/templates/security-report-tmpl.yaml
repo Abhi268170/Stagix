@@ -1,0 +1,15 @@
+# Security Report Template v1.0
+output: .stagix/docs/security-report-{story-key}.md
+agent: security-specialist
+
+sections:
+  summary:
+    instruction: "Files reviewed, findings by severity, overall risk level"
+  findings:
+    instruction: "Per finding: [SEVERITY] Title, File:line, Description, Impact, Remediation"
+    repeatable: true
+    severity_levels: [CRITICAL, HIGH, MEDIUM, LOW]
+  dependency_check:
+    instruction: "Known CVEs in dependencies"
+  footer:
+    instruction: "Standard disclaimer about first-pass filter vs professional pentest"

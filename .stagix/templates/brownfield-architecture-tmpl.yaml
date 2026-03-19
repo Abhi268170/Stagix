@@ -1,0 +1,18 @@
+# Brownfield Architecture Template v1.0
+output: .stagix/docs/architecture.md
+agent: solution-architect
+sections:
+  existing_system_analysis:
+    instruction: "Current state from brownfield-discovery.md, constraints, load-bearing patterns"
+  enhancement_scope:
+    instruction: "What's being added/changed, integration boundaries, compatibility requirements"
+  tech_stack:
+    instruction: "EXISTING stack table + NEW additions with justification for each new technology"
+  integration_strategy:
+    instruction: "How new code integrates with existing — APIs, shared libraries, database"
+  source_tree:
+    instruction: "New additions within existing structure. Do not reorganise existing code."
+  migration_plan:
+    instruction: "Step-by-step plan for introducing changes without disrupting existing functionality"
+  adrs:
+    instruction: "Architecture Decision Records for any deviation from existing patterns"

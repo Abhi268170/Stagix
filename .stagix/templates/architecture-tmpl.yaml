@@ -1,0 +1,26 @@
+# Architecture Template v1.0
+output: .stagix/docs/architecture.md
+agent: solution-architect
+
+sections:
+  high_level_overview:
+    instruction: "System overview with Mermaid component diagram, architectural patterns with justification"
+  tech_stack:
+    instruction: "Technology table: name, version, rationale for each choice"
+  api_design:
+    instruction: "Approach (REST/GraphQL/gRPC), error format, auth strategy, rate limiting"
+  error_handling:
+    instruction: "Error model, logging standards, patterns for APIs/business logic/data"
+  security:
+    instruction: "Auth/authz, secrets management, input validation, API security, data protection"
+  infrastructure:
+    instruction: "Deployment strategy, environments, promotion flow, rollback procedure"
+  testing_strategy:
+    instruction: "Test philosophy, unit/integration/E2E approach, coverage targets"
+
+sharded_outputs:
+  - .stagix/docs/architecture/coding-standards.md
+  - .stagix/docs/architecture/tech-stack.md
+  - .stagix/docs/architecture/source-tree.md
+  - .stagix/docs/architecture/api-contracts.md
+  - .stagix/docs/architecture/adr-log.md

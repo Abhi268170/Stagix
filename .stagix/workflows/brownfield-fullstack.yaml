@@ -1,0 +1,13 @@
+name: Brownfield Full-Stack
+description: Full-stack brownfield — includes Archaeologist phase
+mode: brownfield
+project_type: fullstack
+agents_planning: [codebase-archaeologist, business-analyst, product-manager, ux-designer, solution-architect, db-designer, technical-writer, scrum-master]
+agents_engineering: [backend-dev, frontend-dev, devops, test-case-specialist, security-specialist, tech-lead-reviewer, qa-engineer]
+parallel_steps:
+  - [ux-designer, solution-architect]
+skipped_agents: []
+brownfield_extras:
+  - regression_baseline_before_first_story: true
+  - compatibility_check_before_review: true
+  - brownfield_story_template: true

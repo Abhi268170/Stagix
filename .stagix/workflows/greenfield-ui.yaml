@@ -1,0 +1,9 @@
+name: Greenfield UI
+description: Frontend-only project — no backend architecture
+mode: greenfield
+project_type: ui
+agents_planning: [business-analyst, product-manager, ux-designer, solution-architect, technical-writer, scrum-master]
+agents_engineering: [frontend-dev, devops, test-case-specialist, security-specialist, tech-lead-reviewer, qa-engineer]
+parallel_steps:
+  - [ux-designer, solution-architect]
+skipped_agents: [db-designer, backend-dev]

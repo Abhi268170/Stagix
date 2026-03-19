@@ -1,0 +1,29 @@
+# Product Requirements Document Template v1.0
+output: .stagix/docs/prd.md
+agent: product-manager
+
+sections:
+  executive_summary:
+    instruction: "Product name, one-paragraph description, core value proposition, target release scope"
+  problem_statement:
+    instruction: "Derived from project brief, refined with product lens and market context"
+  user_personas:
+    instruction: "2-4 personas: Name, Role, Goals, Pain Points, Technical Sophistication. Identify primary."
+  feature_epics:
+    instruction: "For each epic: Title, Priority (P1/P2/P3), Description, User Stories (As a/I want/So that), Acceptance Criteria, Dependencies"
+    repeatable: true
+  nfrs:
+    instruction: "Performance, Security, Scalability, Accessibility, Reliability, Observability"
+    subsections:
+      - performance
+      - security
+      - scalability
+      - accessibility
+      - reliability
+      - observability
+  assumptions_and_dependencies:
+    instruction: "Technical assumptions, business assumptions, external dependencies"
+  out_of_scope:
+    instruction: "Explicit exclusions carried forward from project brief"
+  success_metrics:
+    instruction: "Quantifiable metrics tied to business outcomes with measurement approach"

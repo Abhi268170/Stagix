@@ -1,0 +1,23 @@
+# UX Specification Template v1.0
+output: .stagix/docs/ux-spec.md
+agent: ux-designer
+
+sections:
+  ux_goals_and_principles:
+    instruction: "Derived from PRD user personas and NFRs"
+  user_personas_refined:
+    instruction: "Carry forward from PRD, add UX-specific notes: tech comfort, device preferences, context of use"
+  information_architecture:
+    instruction: "Site map / screen inventory with hierarchy and navigation structure"
+  user_flows:
+    instruction: "For each primary journey: flow name, trigger, numbered steps, decision points, success state, error states"
+    repeatable: true
+  screen_inventory:
+    instruction: "For each screen: name, purpose, key components, data displayed, actions, navigation"
+    repeatable: true
+  component_inventory:
+    instruction: "List of UI components: name, variants, where used, interaction behaviour"
+  interaction_patterns:
+    instruction: "Form validation, loading states, error display, empty states, confirmation patterns, navigation transitions"
+  accessibility_requirements:
+    instruction: "WCAG 2.1 AA items, keyboard nav plan, screen reader notes, contrast, focus management, reduced motion"

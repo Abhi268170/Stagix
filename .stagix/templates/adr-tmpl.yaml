@@ -1,0 +1,8 @@
+# Architecture Decision Record Template v1.0
+output: .stagix/docs/architecture/adr-log.md
+agent: solution-architect
+
+sections:
+  per_decision:
+    instruction: "Context (what prompted), Decision (what was decided), Consequences (trade-offs), Status (Accepted/Superseded)"
+    repeatable: true

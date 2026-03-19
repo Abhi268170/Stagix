@@ -1,0 +1,90 @@
+# Stagix Runtime Configuration
+# This file is read by agents, skills, and hooks at runtime.
+# Placeholders ({...}) are substituted by install.sh during setup.
+
+project:
+  name: "{PROJECT_NAME}"
+  jira_key: "{JIRA_KEY}"
+  confluence_space: "{CONFLUENCE_SPACE}"
+  # Set by detect-stack task: greenfield | brownfield
+  mode: null
+
+# Populated by detect-stack task. Agents and SKILL.md loaders read this
+# to compose the correct stack-specific knowledge at runtime.
+detected_stack:
+  frontend:
+    framework: null    # e.g., react-next, vue-nuxt, sveltekit
+    language: null     # e.g., typescript, javascript
+  backend:
+    framework: null    # e.g., python-fastapi, node-express, rails
+    language: null     # e.g., python, javascript, ruby, go
+  database:
+    primary: null      # e.g., postgresql, mysql, mongodb
+    cache: null        # e.g., redis, memcached
+  testing:
+    unit: null         # e.g., pytest, jest-rtl, vitest, rspec
+    e2e: null          # e.g., playwright, cypress
+  infrastructure:
+    ci: null           # e.g., github-actions, gitlab-ci, circleci
+    container: null    # e.g., docker-compose, kubernetes
+    cloud: null        # e.g., aws, gcp, azure
+  package_managers: [] # e.g., [npm, pip, cargo]
+
+# Dev server configuration for QA Engineer's Playwright testing.
+# Must be set before running /implement-story.
+dev_server:
+  command: null          # e.g., "uvicorn main:app --reload --port 8000"
+  port: null             # e.g., 8000
+  health_check: null     # e.g., "http://localhost:8000/health"
+  startup_dependencies:  # Commands to run before starting dev server
+    []                   # e.g., ["docker compose up -d db", "npm run migrate"]
+
+# Quality thresholds enforced by hooks.
+quality:
+  coverage_threshold: 80  # Minimum test coverage % (block-git-commit.py checks this)
+  linters:                # File extension → linter command mapping (run-linter.py uses this)
+    ts: "npx eslint"
+    tsx: "npx eslint"
+    js: "npx eslint"
+    jsx: "npx eslint"
+    py: "ruff check"
+    rb: "rubocop"
+    go: "golangci-lint run"
+    rs: "cargo clippy"
+    java: "checkstyle"
+    php: "phpcs"
+
+# Gate configuration.
+gates:
+  location: ".stagix/gates/"
+  planning_gates:
+    - business-analyst
+    - product-manager
+    - ux-designer
+    - solution-architect
+    - db-designer
+    - technical-writer
+    - scrum-master
+  engineering_gates:
+    - devops
+    - test-plan
+    - security
+    - tech-lead
+    - qa
+    - final
+
+# Files loaded into every Developer agent session as immutable constraints.
+# These are produced by the Solution Architect and approved at the Architect gate.
+devLoadAlwaysFiles:
+  - .stagix/docs/architecture/coding-standards.md
+  - .stagix/docs/architecture/tech-stack.md
+  - .stagix/docs/architecture/source-tree.md
+
+# Brownfield-specific configuration.
+brownfield:
+  # Set to true by detect-stack if existing source files found.
+  enabled: false
+  # Baseline test pass rate captured before first story per epic.
+  baseline_location: ".stagix/baselines/"
+  # Minimum pass rate — story blocked if regression drops below this.
+  regression_threshold: null  # Set after baseline capture, e.g., 95

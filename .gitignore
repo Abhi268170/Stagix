@@ -1,0 +1,34 @@
+# Stagix runtime (generated during use)
+.stagix/.env
+.stagix/state/
+.stagix/gates/*.pending.json
+.stagix/gates/*.approved
+.stagix/gates/*.rejected
+.stagix/qa/evidence/
+.stagix/qa/reports/
+.stagix/baselines/
+.stagix/security-events.log
+.stagix/docs/
+.stagix/design-system/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Node
+node_modules/
+
+# BMAD reference (inspiration source, not part of Stagix)
+reference/
+
+# Original image (spaces in filename)
+Stagix (1).png
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/

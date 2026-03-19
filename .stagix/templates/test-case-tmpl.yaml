@@ -1,0 +1,12 @@
+# Individual Test Case Template
+format: |
+  ### TC-{N}: {Test Name}
+  **AC Reference**: AC-{N}
+  **Level**: Unit | Integration | E2E
+  **Priority**: P0 | P1 | P2
+  **Given**: {precondition}
+  **When**: {action}
+  **Then**: {expected result}
+  **Test Data**: {specific values}
+  **Playwright Locator** (E2E): data-testid="{locator}"
+  **Notes**: {hints}

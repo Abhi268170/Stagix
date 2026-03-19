@@ -1,0 +1,14 @@
+# Frontend Architecture Template v1.0
+output: .stagix/docs/architecture.md
+agent: solution-architect
+sections:
+  framework_selection:
+    instruction: "Framework choice with rationale, rendering strategy"
+  frontend_tech_stack:
+    instruction: "Framework, state management, styling, testing, build tool"
+  component_architecture:
+    instruction: "Component hierarchy, shared components, page components"
+  routing:
+    instruction: "Route structure, lazy loading, guards"
+  state_management:
+    instruction: "Local vs global state strategy, server state management"

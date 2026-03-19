@@ -1,0 +1,136 @@
+# Greenfield Mode — New project from scratch
+# Sequence: detect-stack → plan → build
+# Read by Planning Lead and Engineering Lead to determine agent activation order.
+
+name: Greenfield
+description: New project with no existing codebase. Full planning then full engineering per story.
+
+planning_sequence:
+  - step: 1
+    agent: business-analyst
+    mode: sequential
+    gate: business-analyst
+    input: "User's project idea from /start-project"
+    output: .stagix/docs/project-brief.md
+
+  - step: 2
+    agent: product-manager
+    mode: sequential
+    gate: product-manager
+    input: .stagix/docs/project-brief.md
+    output: .stagix/docs/prd.md
+
+  - step: 3a
+    agent: ux-designer
+    mode: parallel  # Runs simultaneously with solution-architect
+    gate: ux-designer
+    input: .stagix/docs/prd.md
+    output:
+      - .stagix/docs/ux-spec.md
+      - .stagix/design-system/MASTER.md
+
+  - step: 3b
+    agent: solution-architect
+    mode: parallel  # Runs simultaneously with ux-designer
+    gate: null  # No gate yet — waits for UX spec before finalising
+    input: .stagix/docs/prd.md
+    output: .stagix/docs/architecture.md (draft)
+
+  - step: 4
+    agent: solution-architect
+    mode: sequential  # Reviews UX spec, finalises architecture
+    gate: solution-architect
+    input:
+      - .stagix/docs/prd.md
+      - .stagix/docs/ux-spec.md
+    output:
+      - .stagix/docs/architecture.md
+      - .stagix/docs/architecture/coding-standards.md
+      - .stagix/docs/architecture/tech-stack.md
+      - .stagix/docs/architecture/source-tree.md
+      - .stagix/docs/architecture/api-contracts.md
+
+  - step: 5
+    agent: db-designer
+    mode: sequential
+    gate: db-designer
+    input:
+      - .stagix/docs/prd.md
+      - .stagix/docs/architecture.md
+    output: .stagix/docs/db-schema.md
+
+  - step: 6
+    agent: technical-writer
+    mode: sequential
+    gate: technical-writer
+    input: .stagix/docs/*
+    output: Confluence space with all pages published
+
+  - step: 7
+    agent: scrum-master
+    mode: sequential
+    gate: scrum-master  # Final Group 1 gate — unlocks Group 2
+    input: .stagix/docs/*
+    output: Jira epics and stories
+
+engineering_sequence:
+  # Activated per story via /implement-story PROJ-123
+  - step: 1
+    agent: engineering-lead
+    mode: orchestrator
+    gate: null
+    action: Fetch story from Jira, validate story-ready checklist
+
+  - step: 2a
+    agent: backend-dev
+    mode: parallel  # With frontend-dev if tasks are independent
+    gate: null
+    action: Implement backend tasks, write tests
+
+  - step: 2b
+    agent: frontend-dev
+    mode: parallel  # Sequential if frontend depends on backend API
+    gate: null
+    action: Implement frontend tasks, write tests
+
+  - step: 3
+    agent: devops
+    mode: sequential
+    gate: devops
+    action: Review infra implications, update CI/CD
+
+  - step: 4
+    agent: test-case-specialist
+    mode: sequential
+    gate: test-plan
+    action: Write exhaustive test cases from AC + edge cases
+
+  - step: 5
+    agent: backend-dev,frontend-dev
+    mode: sequential
+    gate: null
+    action: Implement exactly the test cases from step 4
+
+  - step: 6
+    agent: security-specialist
+    mode: sequential  # Strictly sequential from here
+    gate: security
+    action: Read-only security audit
+
+  - step: 7
+    agent: tech-lead-reviewer
+    mode: sequential
+    gate: tech-lead
+    action: 5-dimension code review
+
+  - step: 8
+    agent: qa-engineer
+    mode: sequential
+    gate: qa
+    action: Playwright browser-based acceptance testing
+
+  - step: 9
+    agent: human
+    mode: sequential
+    gate: final
+    action: Review all gate reports, approve or reject

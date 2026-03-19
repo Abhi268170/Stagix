@@ -1,0 +1,29 @@
+# Brownfield Discovery Report Template v1.0
+output: .stagix/docs/brownfield-discovery.md
+agent: codebase-archaeologist
+
+sections:
+  executive_summary:
+    instruction: "What it does, how old, overall health (Green/Yellow/Red), size estimate"
+  architecture_map:
+    instruction: "Components, layers, boundaries, data flow, integration points"
+  tech_stack_confirmed:
+    instruction: "Actual versions from lock files, outdated/deprecated flagged"
+  coding_patterns:
+    instruction: "Error handling, auth, naming conventions, file organisation — observed patterns"
+  tech_debt_map:
+    instruction: "Critical, High, Medium, Accepted — with specific file references"
+  test_coverage:
+    instruction: "Coverage by module, files with 0%, quality assessment of existing tests"
+  known_problem_areas:
+    instruction: "Large files, circular deps, missing validation, security anti-patterns"
+  external_integrations:
+    instruction: "Every API called, service depended on, webhook consumed/produced"
+  environment_variables:
+    instruction: "Full inventory, required vs optional, undocumented ones"
+  deployment_architecture:
+    instruction: "Current prod setup, CI/CD pipeline, monitoring, logging"
+  database_schema_current:
+    instruction: "Actual schema from code, drift from migrations, missing indexes"
+  recommended_planning_constraints:
+    instruction: "What Architect must not change, what PM must be careful about"
