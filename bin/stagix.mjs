@@ -112,6 +112,14 @@ async function install(targetDir) {
   // Copy CLAUDE.md to project root
   cpSync(join(destStagix, "CLAUDE.md"), join(target, "CLAUDE.md"));
 
+  // Create runtime directories (gitignored, so not in the package)
+  for (const dir of [
+    "state", "gates", "baselines", "qa/evidence", "qa/reports",
+    "docs", "docs/architecture", "design-system", "design-system/pages", "tests"
+  ]) {
+    mkdirSync(join(destStagix, dir), { recursive: true });
+  }
+
   // Initialize state files
   writeFileSync(
     join(destStagix, "state", "pipeline-log.json"),
