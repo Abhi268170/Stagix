@@ -85,16 +85,17 @@ ENV_FILE="$TARGET_DIR/.stagix/.env"
 if [ ! -f "$ENV_FILE" ]; then
   echo "Creating .env template..."
   cat > "$ENV_FILE" << 'ENVEOF'
-# Stagix Atlassian Credentials
+# Stagix — Atlassian Credentials
 # Fill in your values below. DO NOT COMMIT this file.
 #
+# Same API token works for both Jira and Confluence.
 # To get an API token: https://id.atlassian.com/manage-profile/security/api-tokens
 #
 JIRA_URL=https://yourorg.atlassian.net
-JIRA_EMAIL=your-email@example.com
+JIRA_USERNAME=your-email@example.com
 JIRA_API_TOKEN=your-api-token-here
-CONFLUENCE_URL=https://yourorg.atlassian.net
-CONFLUENCE_EMAIL=your-email@example.com
+CONFLUENCE_URL=https://yourorg.atlassian.net/wiki
+CONFLUENCE_USERNAME=your-email@example.com
 CONFLUENCE_API_TOKEN=your-api-token-here
 ENVEOF
   chmod 600 "$ENV_FILE"
