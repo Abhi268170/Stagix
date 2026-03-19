@@ -1,11 +1,11 @@
 ---
 name: start-project
-description: Launch the Stagix Planning pipeline for a new project or feature
+description: Launch the Stagix Planning pipeline — detects stack and transforms into the Business Analyst
 ---
 
 # /start-project
 
-Launches the Stagix planning pipeline by detecting the tech stack and activating the Business Analyst for interactive requirements elicitation.
+Detects the tech stack, sets up the project mode, then transforms into the Business Analyst persona to begin interactive requirements elicitation.
 
 ## Usage
 ```
@@ -14,7 +14,10 @@ Launches the Stagix planning pipeline by detecting the tech stack and activating
 
 ## Steps
 
-### Step 1: Detect Stack
+### Step 1: Store the project idea
+Save the user's project idea — it will be passed to the Business Analyst.
+
+### Step 2: Detect Stack
 Read signal files in the project root to determine tech stack and mode:
 - package.json → Node.js/React/Vue/etc.
 - requirements.txt / pyproject.toml → Python/FastAPI/Django/etc.
@@ -23,41 +26,31 @@ Read signal files in the project root to determine tech stack and mode:
 
 Update `.stagix/core-config.yaml` with `detected_stack` and `mode` (greenfield/brownfield).
 
-### Step 2: Brownfield Discovery (if applicable)
-If mode is brownfield, tell the user:
-```
-Brownfield mode detected. Run the Codebase Archaeologist first:
-  Activate the codebase-archaeologist agent
-  After it completes, run: /approve discovery
-  Then re-run: /start-project "your idea"
-```
-Stop here for brownfield — the user needs to run discovery first.
+### Step 3: Handle Brownfield (if applicable)
+If mode is brownfield:
+1. Read `.stagix/agents/planning/codebase-archaeologist.md`
+2. Transform into Sam (Archaeologist)
+3. Execute the discovery protocol
+4. When complete, present the discovery report and wait for `/approve discovery`
+5. After approval, proceed to Step 4
 
-### Step 3: Activate Business Analyst
-For greenfield (or after brownfield discovery is approved):
+### Step 4: Transform into Business Analyst
+1. Read `.stagix/agents/planning/business-analyst.md`
+2. Adopt Priya's identity, role, principles, and instructions completely
+3. Begin the 5-phase interactive elicitation with the user's project idea
+4. Stay in the BA persona until the project brief is complete
 
-Tell the user to activate the Business Analyst agent directly. The BA needs to run as the main thread to have an interactive multi-turn conversation.
+## CRITICAL: Persona Swap Pattern
 
-```
-Stack detected. Planning pipeline ready.
+This command starts the chain. After the BA finishes:
+- The user runs `/approve business-analyst`
+- The `/approve` command reads the next agent file and transforms into that persona
+- This continues through all 7 planning agents automatically
 
-Next step — activate the Business Analyst:
-  Use the business-analyst agent with your project idea.
+The user only needs to:
+1. `/start-project "idea"` — starts the chain
+2. Interact with each agent as needed
+3. `/approve {stage}` — after reviewing each agent's output
+4. `/reject {stage} "feedback"` — if changes are needed
 
-The BA will conduct a 5-phase interactive elicitation to build your project brief.
-After the BA completes, run: /approve business-analyst
-```
-
-## Important
-Do NOT spawn subagents or activate a Planning Lead orchestrator. Planning agents run one at a time as the main thread because they need interactive conversations with the user. The gate system (/approve, /reject) sequences them.
-
-## Full Planning Sequence
-Each agent runs as main thread, one at a time:
-
-1. **Business Analyst** (Priya) — interactive elicitation → `/approve business-analyst`
-2. **Product Manager** (Nate) — PRD from brief → `/approve product-manager`
-3. **UX Designer** (Lena) — UX spec + design system → `/approve ux-designer`
-4. **Solution Architect** (Soren) — architecture + sharded docs → `/approve solution-architect`
-5. **Database Designer** (Rex) — schema + migrations → `/approve db-designer`
-6. **Technical Writer** (Alex) — Confluence publishing → `/approve technical-writer`
-7. **Scrum Master** (Kai) — Jira epics + stories → `/approve scrum-master` (unlocks Group 2)
+The `/approve` command handles all persona transitions. No manual agent switching needed.
