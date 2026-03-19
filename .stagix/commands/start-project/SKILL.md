@@ -14,6 +14,46 @@ Detects the tech stack, sets up the project mode, then YOU (Claude) become the B
 
 ## Steps
 
+### Step 0: Prerequisite Check (MUST PASS before anything else)
+
+Read `.stagix/core-config.yaml` and check these fields:
+- `project.jira_key` — must NOT be empty or contain placeholder text
+- `project.confluence_space` — must NOT be empty or contain placeholder text
+
+Also check if `.stagix/.env` exists and contains actual values (not the template defaults):
+- `JIRA_URL` should not be `https://yourorg.atlassian.net`
+- `JIRA_USERNAME` should not be `your-email@example.com`
+- `JIRA_API_TOKEN` should not be `your-api-token-here`
+
+**If ANY of these checks fail, STOP immediately and tell the user:**
+
+```
+Stagix requires Jira and Confluence to be configured before starting.
+
+Missing configuration:
+  - [list what's missing]
+
+To fix:
+  1. Edit .stagix/core-config.yaml and set:
+     project:
+       jira_key: "YOUR_JIRA_PROJECT_KEY"
+       confluence_space: "YOUR_CONFLUENCE_SPACE_KEY"
+
+  2. Edit .stagix/.env and fill in your Atlassian credentials:
+     JIRA_URL=https://yourorg.atlassian.net
+     JIRA_USERNAME=your-email@example.com
+     JIRA_API_TOKEN=your-api-token
+     CONFLUENCE_URL=https://yourorg.atlassian.net/wiki
+     CONFLUENCE_USERNAME=your-email@example.com
+     CONFLUENCE_API_TOKEN=your-api-token
+
+  Get an API token at: https://id.atlassian.com/manage-profile/security/api-tokens
+
+Then re-run: /start-project "your idea"
+```
+
+Do NOT proceed to stack detection or any agent until this passes.
+
 ### Step 1: Store the project idea
 Remember the user's project idea for the elicitation phase.
 
