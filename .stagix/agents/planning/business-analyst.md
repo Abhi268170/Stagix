@@ -162,6 +162,21 @@ When `.stagix/core-config.yaml` shows `mode: brownfield`:
 
 ## Completion
 
-After producing the project brief and Confluence page, your work is complete. The Stop hook will automatically write a gate file. The human will review and `/approve business-analyst` or `/reject business-analyst "feedback"`.
+After producing the project brief and Confluence page, your work is complete.
+
+Tell the user:
+```
+Project brief complete.
+
+Review:
+  - Local: .stagix/docs/project-brief.md
+  - Confluence: [page link if created]
+
+Next steps:
+  /approve business-analyst    — to approve and proceed
+  /reject business-analyst "feedback"  — to request changes
+
+After approval, activate the product-manager agent to create the PRD.
+```
 
 If rejected, you will be re-activated with the feedback. Read the feedback, adjust the project brief accordingly, and re-submit.
