@@ -64,30 +64,43 @@ async function install(targetDir) {
     cpSync(STAGIX_SOURCE, destStagix, { recursive: true });
   }
 
-  // Write .env template (user fills in credentials)
-  const envPath = join(destStagix, ".env");
-  if (!existsSync(envPath)) {
-    const envTemplate = [
-      "# Stagix — Atlassian Credentials",
-      "# Fill in your values below. DO NOT COMMIT this file.",
-      "#",
-      "# Same API token works for both Jira and Confluence.",
-      "# To get an API token: https://id.atlassian.com/manage-profile/security/api-tokens",
-      "#",
-      "JIRA_URL=https://yourorg.atlassian.net",
-      "JIRA_USERNAME=your-email@example.com",
-      "JIRA_API_TOKEN=your-api-token-here",
-      "CONFLUENCE_URL=https://yourorg.atlassian.net/wiki",
-      "CONFLUENCE_USERNAME=your-email@example.com",
-      "CONFLUENCE_API_TOKEN=your-api-token-here",
-    ].join("\n");
+  // Ask for Atlassian credentials and write to .claude/settings.local.json
+  // This is where Claude Code reads env vars for MCP servers.
+  // .env files don't work — MCP servers need env vars in settings or shell.
+  console.log(`\n${YELLOW}── Atlassian Credentials ──${NC}`);
+  console.log("Same API token works for both Jira and Confluence.");
+  console.log(`Get a token at: ${CYAN}https://id.atlassian.com/manage-profile/security/api-tokens${NC}\n`);
 
-    writeFileSync(envPath, envTemplate, { mode: 0o600 });
+  const atlassianUrl = await ask("Atlassian URL (e.g., https://yourorg.atlassian.net): ");
+  const atlassianEmail = await ask("Atlassian email: ");
+  const atlassianToken = await ask("Atlassian API token: ");
+
+  // Write to .claude/settings.local.json (gitignored by Claude Code)
+  const claudeDir = join(target, ".claude");
+  mkdirSync(claudeDir, { recursive: true });
+  const localSettingsPath = join(claudeDir, "settings.local.json");
+
+  let localSettings = {};
+  if (existsSync(localSettingsPath)) {
+    try {
+      localSettings = JSON.parse(readFileSync(localSettingsPath, "utf-8"));
+    } catch { }
   }
+
+  localSettings.env = {
+    JIRA_URL: atlassianUrl,
+    JIRA_USERNAME: atlassianEmail,
+    JIRA_API_TOKEN: atlassianToken,
+    CONFLUENCE_URL: atlassianUrl.replace(/\/$/, "") + "/wiki",
+    CONFLUENCE_USERNAME: atlassianEmail,
+    CONFLUENCE_API_TOKEN: atlassianToken,
+  };
+
+  writeFileSync(localSettingsPath, JSON.stringify(localSettings, null, 2));
 
   // Update .gitignore
   const gitignorePath = join(target, ".gitignore");
-  const gitignoreEntries = "\n# Stagix\n.stagix/.env\n.stagix/qa/evidence/\n.stagix/state/\n.stagix/security-events.log\n";
+  const gitignoreEntries = "\n# Stagix\n.stagix/qa/evidence/\n.stagix/state/\n.stagix/security-events.log\n";
   if (existsSync(gitignorePath)) {
     const content = readFileSync(gitignorePath, "utf-8");
     if (!content.includes(".stagix/.env")) {
@@ -147,19 +160,14 @@ async function install(targetDir) {
   console.log(`${GREEN}║       Stagix installed successfully!      ║${NC}`);
   console.log(`${GREEN}╚═══════════════════════════════════════════╝${NC}`);
   console.log(`
-${YELLOW}Step 1:${NC} Add your Atlassian credentials:
+  Atlassian credentials saved to ${CYAN}.claude/settings.local.json${NC} (gitignored).
 
-  ${CYAN}Edit ${join(destStagix, ".env")}${NC}
-
-  Fill in JIRA_URL, JIRA_EMAIL, JIRA_API_TOKEN
-  (Get a token at: https://id.atlassian.com/manage-profile/security/api-tokens)
-
-${YELLOW}Step 2:${NC} Launch Claude Code with Stagix:
+${YELLOW}Launch:${NC}
 
   ${CYAN}cd ${target}${NC}
   ${CYAN}claude --plugin-dir .stagix${NC}
 
-${YELLOW}Step 3:${NC} Start building:
+${YELLOW}Start building:${NC}
 
   ${CYAN}/start-project "your project idea"${NC}
 
