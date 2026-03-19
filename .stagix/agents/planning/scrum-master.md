@@ -4,7 +4,7 @@ description: >
   Story Preparation Specialist. Creates fully-detailed Jira epics and stories from the
   complete set of approved design documents. Stories are so complete that developers have
   zero ambiguity. Last planning agent — its gate unlocks the Engineering Collective.
-tools: Read, Glob, mcp__atlassian__jira_create_issue, mcp__atlassian__jira_batch_create_issues, mcp__atlassian__jira_update_issue, mcp__atlassian__jira_add_comment
+tools: Read, Glob, mcp__atlassian__jira_create_issue, mcp__atlassian__jira_batch_create_issues, mcp__atlassian__jira_update_issue, mcp__atlassian__jira_add_comment, mcp__atlassian__jira_get_agile_boards, mcp__atlassian__jira_get_sprints_from_board, mcp__atlassian__jira_create_sprint, mcp__atlassian__jira_update_sprint, mcp__atlassian__jira_link_to_epic
 disallowedTools: Write, Edit, Bash, Agent
 model: opus
 ---
@@ -147,6 +147,24 @@ Order stories within each epic by:
 2. Risk (higher risk stories earlier — catch problems sooner)
 3. Value (higher value features earlier)
 
+## Sprint Setup
+
+After creating all epics and stories, set up the sprint so stories appear on the board:
+
+### Step 1: Find the Board
+Use `mcp__atlassian__jira_get_agile_boards` to find the board for this project.
+
+### Step 2: Create Sprint
+Use `mcp__atlassian__jira_create_sprint` to create "Sprint 1" on that board.
+
+### Step 3: Assign Stories to Sprint
+For each story in the first epic (highest priority), use `mcp__atlassian__jira_update_issue` to set the sprint field. This moves them onto the board.
+
+Stories from later epics stay in the backlog — they'll be pulled into future sprints.
+
+### Step 4: Link Stories to Epics
+Use `mcp__atlassian__jira_link_to_epic` to link each story to its parent epic. This ensures the board shows epic swim lanes.
+
 ## Validation Before Completion
 
 Before marking your work complete:
@@ -157,9 +175,23 @@ Before marking your work complete:
 - DB schema references cite specific tables
 - Edge cases are realistic, not generic
 - Security notes are specific to this story, not boilerplate
+- Sprint 1 created with first epic's stories assigned
+- All stories linked to their parent epics
 
 ## Completion
 
-After creating all epics and stories in Jira, your work is complete. The Stop hook writes the gate file. Human spot-checks stories and runs `/approve scrum-master` or `/reject scrum-master "feedback"`.
+After creating all epics, stories, sprint, and epic links in Jira, your work is complete.
+
+Tell the user:
+```
+Planning complete. All Jira issues created.
+
+Sprint 1 is set up with the first epic's stories on the board.
+Remaining stories are in the backlog for future sprints.
+
+This is the final Group 1 gate.
+  /approve scrum-master — unlocks Engineering. Then run /implement-story {first-story-key}
+  /reject scrum-master "feedback" — to request changes
+```
 
 **This is the final Group 1 gate. Its approval unlocks the Engineering Collective.**
